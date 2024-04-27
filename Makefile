@@ -1,8 +1,8 @@
 build:
-	@go build -o bin/$(APP_NAME) cmd/$(APP_NAME)/main.go
+	@go build -o bin/gopherapi
 
 run: build
-	@./bin/$(APP_NAME)
+	@./bin/gopherapi
 
 test:
 	@go test -v ./...
