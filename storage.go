@@ -39,11 +39,11 @@ func NewPostgresStore() (*PostgresStore, error) {
 }
 
 func (s *PostgresStore) Init() error {
-	return s.CreatAcountTable()
+	return s.CreateAcountTable()
 }
 
-func (s *PostgresStore) CreatAcountTable() error {
-	_, error := s.db.Exec(`CREATE TABLE IF NOT EXISTS accounts (id SERIAL PRIMARY KEY, first_name TEXT, last_name TEXT, email TEXT, number SERIAL, balance SERIAL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`)
+func (s *PostgresStore) CreateAcountTable() error {
+	_, error := s.db.Exec(`DROP TABLE IF EXISTS accounts; CREATE TABLE accounts (id SERIAL PRIMARY KEY, first_name TEXT, last_name TEXT, email TEXT, number NUMERIC, balance NUMERIC, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`)
 	return error
 }
 
@@ -119,6 +119,8 @@ func scanIntoAccount(rows *sql.Rows) (*Account, error) {
 		&account.Email,
 		&account.Number,
 		&account.Balance,
+		&account.CreatedAt,
+		&account.UpdatedAt,
 	)
 	if error != nil {
 		return nil, error

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"math/rand"
 	"time"
 )
@@ -18,13 +19,14 @@ type CreateAccountRequest struct {
 }
 
 type Account struct {
-	ID        int       `json:"id"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Email     string    `json:"email"`
-	Number    int64     `json:"number"`
-	Balance   int64     `json:"balance"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int           `json:"id"`
+	FirstName string        `json:"first_name"`
+	LastName  string        `json:"last_name"`
+	Email     string        `json:"email"`
+	Number    sql.NullInt64 `json:"number"`
+	Balance   sql.NullInt64 `json:"balance"`
+	CreatedAt time.Time     `json:"created_at"`
+	UpdatedAt time.Time     `json:"updated_at"`
 }
 
 func NewAccount(firstName, lastName, email string) *Account {
@@ -32,7 +34,7 @@ func NewAccount(firstName, lastName, email string) *Account {
 		FirstName: firstName,
 		LastName:  lastName,
 		Email:     email,
-		Number:    int64(rand.Intn(100000)),
+		Number:    sql.NullInt64{Int64: int64(rand.Intn(100000)), Valid: true},
 		CreatedAt: time.Now().UTC(),
 	}
 }
